@@ -49,4 +49,6 @@ public class Vehicle {
     public void setColor(String color){this.color = color;}
     public void setOdometer(int odometer){this.odometer = odometer;}
     public void setPrice(double price){this.price = price;}
+
+    // TODO add toString and toStringDisplay?
 }
