@@ -50,5 +50,31 @@ public class Vehicle {
     public void setOdometer(int odometer){this.odometer = odometer;}
     public void setPrice(double price){this.price = price;}
 
-    // TODO add toString and toStringDisplay?
+    // methods
+    public String toString(){
+        return String.format(
+                "%s|%s|%s|%s|%s|%s|%s|%s",
+                this.vin,
+                this.year,
+                this.make,
+                this.model,
+                this.vehicleType,
+                this.color,
+                this.odometer,
+                this.price
+        );
+    }
+    public String toStringDisplay(){
+        return String.format(
+                "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
+                this.vin,
+                this.year,
+                this.make,
+                this.model,
+                this.vehicleType,
+                this.color,
+                this.odometer,
+                this.price
+        );
+    }
 }
