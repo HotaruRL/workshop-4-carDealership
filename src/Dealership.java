@@ -25,6 +25,15 @@ public class Dealership {
     public void setPhone(String phone){this.phone = phone;}
 
     // methods
+
+    public String toString(){
+        return String.format(
+                "%s\n%s\n%s",
+                this.name,
+                this.address,
+                this.phone);
+    }
+
     public void addVehicle(Vehicle vehicle){inventory.add(vehicle);}
 //    public void removeVehicle(Vehicle vehicle){inventory.remove(vehicle);}
 
