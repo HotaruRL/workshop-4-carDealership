@@ -1,6 +1,9 @@
 public class Program {
     public static void main(String[] args) {
-        DealershipFileManager dfm = new DealershipFileManager();
-        dfm.getDealership();
+        UserInterface UI = new UserInterface();
+//        System.out.println(UI.dealership);
+//        UI.dealership.getAllVehicles();
+        UI.display();
+
     }
 }
