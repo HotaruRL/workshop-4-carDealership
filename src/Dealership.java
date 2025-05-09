@@ -35,7 +35,7 @@ public class Dealership {
     }
 
     public void addVehicle(Vehicle vehicle){inventory.add(vehicle);}
-//    public void removeVehicle(Vehicle vehicle){inventory.remove(vehicle);}
+    public void removeVehicle(Vehicle vehicle){inventory.remove(vehicle);}
 
     public void getAllVehicles(){
         for (Vehicle v : inventory) {
@@ -43,40 +43,40 @@ public class Dealership {
         }
     }// End of getVehiclesByPrice method
 
-//    public void getVehiclesByPrice(min, max){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByPrice method
+    public void getVehiclesByPrice(int min, int max){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByPrice method
 
-//    public void getVehiclesByMakeModel(make, model){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByMakeModel method
+    public void getVehiclesByMakeModel(String make, String model){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByMakeModel method
 
-//    public void getVehiclesByYear(min, max){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByYear method
+    public void getVehiclesByYear(int min, int max){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByYear method
 
-//    public void getVehiclesByColor(color){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByColor method
+    public void getVehiclesByColor(String color){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByColor method
 
-//    public void getVehiclesByMileage(min, max){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByMileage method
+    public void getVehiclesByMileage(int min, int max){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByMileage method
 
-//    public void getVehiclesByType(vehicleType){
-//        for (Vehicle v : inventory) {
-//            System.out.println(v); // TODO add .toStringDisplay?
-//        }
-//    }// End of getVehiclesByType method
+    public void getVehiclesByType(String vehicleType){
+        for (Vehicle v : inventory) {
+            System.out.println(v); // TODO add .toStringDisplay?
+        }
+    }// End of getVehiclesByType method
 
 }
