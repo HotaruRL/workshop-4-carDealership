@@ -54,7 +54,7 @@ public class UserInterface {
     public void display(){
         init();
         int userInput = -1;
-        while(userInput != 99){
+        while(userInput != 0){
             try{
                 m.menuHeader("Main Menu");
                 m.printMainMenu();
@@ -69,8 +69,8 @@ public class UserInterface {
 //                    case 6 -> dealership.getVehiclesByType();
                     case 7 -> dealership.getAllVehicles();
                     case 8 -> processAddVehicleRequest();
-//                    case 9 -> dealership.removeVehicle();
-                    case 99 -> userInput = 99;
+                    case 9 -> processRemoveVehicleRequest();
+                    case 0 -> System.out.println("Thank you for visiting our dealership! See you again!");
                     default -> System.out.println("\nCommand not found. Please try again!");
                 }
             } catch (Exception e) {
@@ -83,7 +83,7 @@ public class UserInterface {
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
     public void processAddVehicleRequest(){
-        int confirmation;
+        String confirmation;
         do {
             m.menuHeader("Add a Vehicle");
             init();
@@ -97,14 +97,50 @@ public class UserInterface {
             int odometer = (int) getValidatedInputDouble("Odometer");
             double price = getValidatedInputDouble("Price");
             Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
-            dealership.addVehicle(newVehicle);
             System.out.print("\nThe following vehicle will be added to inventory:\n" + newVehicle.toStringDisplay());
             System.out.print("\nEnter [Any Key] to CONFIRM or press [0] to CANCEL: ");
             in.nextLine();
-            confirmation = in.nextInt();
-            dealershipFM.saveDealership(dealership, dealership.getInventory()); // TODO: move this save step to after exiting the program?
-        }while(confirmation != 0);
+            confirmation = in.nextLine().trim();
+            if (!confirmation.equals("0")) {
+                dealership.addVehicle(newVehicle);
+                dealershipFM.saveDealership(dealership, dealership.getInventory()); // TODO: move this save step to after exiting the program?
+            }
+        }while(!confirmation.equals("0"));
     }// End of processAddVehicleRequest()
+
+    public void processRemoveVehicleRequest(){
+        String confirmation;
+        int vinToRemove;
+        int found = 0;
+        do {
+            m.menuHeader("Remove a Vehicle");
+            init();
+            vinToRemove = (int) getValidatedInputDouble("VIN to REMOVE");
+            for (Vehicle vehicle : dealership.getInventory()){
+                if (vinToRemove == vehicle.getVin()){
+                    found++;
+                    System.out.print("\nThe following vehicle will be added to inventory:\n" + vehicle.toStringDisplay());
+                    System.out.print("\nEnter [1] to CONFIRM or enter [Any Key] to CANCEL: ");
+                    in.nextLine();
+                    confirmation = in.nextLine().trim();
+                    if (confirmation.equals("1")) {
+                        dealership.removeVehicle(vehicle);
+                        dealershipFM.saveDealership(dealership, dealership.getInventory()); // TODO: move this save step to after exiting the program?
+                        break;
+                    }else{
+                        break;
+                    }
+                }
+            }
+            if (found == 0){
+                System.out.printf("\nThere is no vehicle match with VIN# %s!", String.valueOf(vinToRemove));
+            }
+            System.out.print("\n\nDo you want to remove another vehicle?");
+            System.out.print("\nEnter [Any Key] to CONFIRM or enter [0] to go back to Main Menu: ");
+            in.nextLine();
+            confirmation = in.nextLine().trim();
+        }while (!confirmation.equals("0"));
+    }
 
     // -------------------------------------- ADD/REMOVE VEHICLE METHODS ENDS --------------------------------------- //
 }
