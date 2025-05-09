@@ -18,6 +18,7 @@ public class Dealership {
     public String getName(){return this.name;}
     public String getAddress(){return this.address;}
     public String getPhone(){return this.phone;}
+    public ArrayList<Vehicle> getInventory(){return this.inventory;};
 
     // setters
     public void setName(String name){this.name = name;}
@@ -27,6 +28,13 @@ public class Dealership {
     // methods
 
     public String toString(){
+        return String.format(
+                "%s|%s|%s",
+                this.name,
+                this.address,
+                this.phone);
+    }
+    public String toStringDisplay(){
         return String.format(
                 "%s\n%s\n%s",
                 this.name,

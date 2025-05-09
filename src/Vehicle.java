@@ -65,8 +65,16 @@ public class Vehicle {
         );
     }
     public String toStringDisplay(){
-        return String.format(
-                "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
+        return String.format("""
+                VIN: %s
+                Year: %s
+                Make: %s
+                Model: %s
+                Vehicle Type: %s
+                Color: %s
+                Odometer: %s
+                Price: %s
+                """,
                 this.vin,
                 this.year,
                 this.make,
