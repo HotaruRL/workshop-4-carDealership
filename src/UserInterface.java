@@ -84,18 +84,36 @@ public class UserInterface {
     // ------------------------------------------ GET VEHICLE LIST METHODS ------------------------------------------ //
     public void processAllVehiclesRequest(){
         init();
+        System.out.println(m.createPattern("🔻", 50));
+        System.out.printf("%d vehicles found in inventory.\n\n", dealership.getAllVehicles().size());
         for (Vehicle v : dealership.getAllVehicles()){
             System.out.println(v.toStringDisplay());
         }
+        System.out.printf("%d vehicles found in inventory.\n", dealership.getAllVehicles().size());
+        System.out.println(m.createPattern("🔺", 50));
 
     }// End of processAllVehiclesRequest()
 
     public void processGetByPriceRequest(){
-
+        init();
+        double minPrice = Math.abs(getValidatedInputDouble("Minimum Price"));
+        double maxPrice = Math.abs(getValidatedInputDouble("Maximum Price"));
+        System.out.println(m.createPattern("🔻", 50));
+        System.out.printf("%d vehicles found within the price range of %.2f - %.2f\n\n",
+                dealership.getVehiclesByPrice(minPrice,maxPrice).size(), minPrice, maxPrice);
+        for (Vehicle v : dealership.getVehiclesByPrice(minPrice, maxPrice)){
+            System.out.println(v.toStringDisplay());
+        }
+        System.out.printf("%d vehicles found within the price range of %.2f - %.2f\n",
+                dealership.getVehiclesByPrice(minPrice,maxPrice).size(), minPrice, maxPrice);
+        System.out.println(m.createPattern("🔺", 50));
     }
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
+    // TODO: add validation (range) for each field
+    // TODO: refactor confirmation into its own method
+    // TODO: change [Any Key] to a specific key and add loop to handle input
     public void processAddVehicleRequest(){
         String confirmation;
         do {
@@ -112,13 +130,17 @@ public class UserInterface {
             double price = getValidatedInputDouble("Price");
             Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
             System.out.print("\nThe following vehicle will be added to inventory:\n" + newVehicle.toStringDisplay());
-            System.out.print("\nEnter [Any Key] to CONFIRM or press [0] to CANCEL: ");
+            System.out.print("\nEnter [1] to CONFIRM or press [Any Key] to CANCEL: ");
             in.nextLine();
             confirmation = in.nextLine().trim();
-            if (!confirmation.equals("0")) {
+            if (confirmation.equals("1")) {
                 dealership.addVehicle(newVehicle);
                 dealershipFM.saveDealership(dealership, dealership.getAllVehicles()); // TODO: move this save step to after exiting the program?
+                System.out.println("The car has been successfully added!");
             }
+            System.out.print("\n\nDo you want to add another vehicle?");
+            System.out.print("\nEnter [Any Key] to CONFIRM or enter [0] to go back to Main Menu: ");
+            confirmation = in.nextLine().trim();
         }while(!confirmation.equals("0"));
     }// End of processAddVehicleRequest()
 
@@ -133,13 +155,14 @@ public class UserInterface {
             for (Vehicle vehicle : (dealership.getAllVehicles())){
                 if (vinToRemove == vehicle.getVin()){
                     found++;
-                    System.out.print("\nThe following vehicle will be added to inventory:\n" + vehicle.toStringDisplay());
+                    System.out.print("\nThe following vehicle will be removed to inventory:\n" + vehicle.toStringDisplay());
                     System.out.print("\nEnter [1] to CONFIRM or enter [Any Key] to CANCEL: ");
                     in.nextLine();
                     confirmation = in.nextLine().trim();
                     if (confirmation.equals("1")) {
                         dealership.removeVehicle(vehicle);
                         dealershipFM.saveDealership(dealership, dealership.getAllVehicles()); // TODO: move this save step to after exiting the program?
+                        System.out.println("The car has been successfully removed!");
                         break;
                     }else{
                         break;
@@ -151,6 +174,7 @@ public class UserInterface {
             }
             System.out.print("\n\nDo you want to remove another vehicle?");
             System.out.print("\nEnter [Any Key] to CONFIRM or enter [0] to go back to Main Menu: ");
+            found = 0;
             in.nextLine();
             confirmation = in.nextLine().trim();
         }while (!confirmation.equals("0"));

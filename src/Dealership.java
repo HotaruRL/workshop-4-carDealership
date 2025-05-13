@@ -50,10 +50,14 @@ public class Dealership {
         return inventory;
     }// End of getAllVehicles method
 
-    public void getVehiclesByPrice(int min, int max){
+    public ArrayList<Vehicle> getVehiclesByPrice(double min, double max){
+        ArrayList<Vehicle> list = new ArrayList<>();
         for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
+            if (min <= v.getPrice() && v.getPrice() <= max){
+                list.add(v);
+            }
         }
+        return list;
     }// End of getVehiclesByPrice method
 
     public void getVehiclesByMakeModel(String make, String model){
