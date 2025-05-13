@@ -5,28 +5,27 @@ public class Dealership {
     private String name;
     private String address;
     private String phone;
-    private ArrayList<Vehicle> inventory = new ArrayList<>();
+    private ArrayList<Vehicle> inventory;
 
     // constructor
     Dealership(String name, String address, String phone){
         this.name = name;
         this.address = address;
         this.phone = phone;
+        this.inventory = new ArrayList<>();
     }
 
     // getters
     public String getName(){return this.name;}
     public String getAddress(){return this.address;}
     public String getPhone(){return this.phone;}
-    public ArrayList<Vehicle> getInventory(){return this.inventory;};
 
     // setters
     public void setName(String name){this.name = name;}
     public void setAddress(String address){this.address = address;}
     public void setPhone(String phone){this.phone = phone;}
 
-    // methods
-
+    // toString methods
     public String toString(){
         return String.format(
                 "%s|%s|%s",
@@ -42,14 +41,14 @@ public class Dealership {
                 this.phone);
     }
 
+    // add and remove methods
     public void addVehicle(Vehicle vehicle){inventory.add(vehicle);}
     public void removeVehicle(Vehicle vehicle){inventory.remove(vehicle);}
 
-    public void getAllVehicles(){
-        for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
-        }
-    }// End of getVehiclesByPrice method
+    // getVehicles methods
+    public ArrayList<Vehicle> getAllVehicles(){
+        return inventory;
+    }// End of getAllVehicles method
 
     public void getVehiclesByPrice(int min, int max){
         for (Vehicle v : inventory) {

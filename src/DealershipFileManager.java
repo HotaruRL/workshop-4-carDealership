@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 public class DealershipFileManager {
     String FilePath = "inventory.csv";
+    BufferedReader bufferedReader;
+    BufferedWriter bufferedWriter;
 
     public Dealership getDealership(){
         Dealership dealership = new Dealership("","","");
         try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(FilePath));
+            bufferedReader = new BufferedReader(new FileReader(FilePath));
             // get dealership info from 1st line
             String[] dealershipInfoParts = bufferedReader.readLine().trim().split("\\|");
             // update dealership instance with new info
@@ -42,7 +44,7 @@ public class DealershipFileManager {
 
     public void saveDealership(Dealership dealership, ArrayList<Vehicle> dealershipInventory){
         try{
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FilePath));
+            bufferedWriter = new BufferedWriter(new FileWriter(FilePath));
             bufferedWriter.write(dealership.toString());
             for (Vehicle v : dealershipInventory){
                 bufferedWriter.newLine();

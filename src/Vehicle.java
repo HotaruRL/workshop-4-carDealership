@@ -50,7 +50,7 @@ public class Vehicle {
     public void setOdometer(int odometer){this.odometer = odometer;}
     public void setPrice(double price){this.price = price;}
 
-    // methods
+    // toString methods
     public String toString(){
         return String.format(
                 "%s|%s|%s|%s|%s|%s|%s|%s",

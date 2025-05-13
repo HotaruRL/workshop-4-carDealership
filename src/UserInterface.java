@@ -13,7 +13,7 @@ public class UserInterface {
         this.dealership = init();
     }
     // ------------------------------------------- USER INPUT VALIDATION -------------------------------------------- //
-    // make sure user enters something for String fields' value
+    // Input strings are not empty
     public String getValidatedInputString (String fieldName){
         String userInput;
         while (true) {
@@ -28,7 +28,7 @@ public class UserInterface {
         }
         return userInput;
     } // End of getValidatedInputString method
-    // make sure user enters only a number for number (output: double) fields' value
+    // Input numbers are decimals
     public double getValidatedInputDouble (String fieldName){
         double userInput = 0;
         boolean isValid = false;
@@ -61,13 +61,13 @@ public class UserInterface {
                 userInput = in.nextInt();
                 String _ = in.nextLine();
                 switch (userInput){
-//                    case 1 -> dealership.getVehiclesByPrice();
+                    case 1 -> processGetByPriceRequest();
 //                    case 2 -> dealership.getVehiclesByMakeModel();
 //                    case 3 -> dealership.getVehiclesByYear();
 //                    case 4 -> dealership.getVehiclesByColor();
 //                    case 5 -> dealership.getVehiclesByMileage();
 //                    case 6 -> dealership.getVehiclesByType();
-                    case 7 -> dealership.getAllVehicles();
+                    case 7 -> processAllVehiclesRequest();
                     case 8 -> processAddVehicleRequest();
                     case 9 -> processRemoveVehicleRequest();
                     case 0 -> System.out.println("Thank you for visiting our dealership! See you again!");
@@ -80,6 +80,20 @@ public class UserInterface {
         }
     }// End of display()
     // -------------------------------------------- DISPLAY METHODS ENDS -------------------------------------------- //
+
+    // ------------------------------------------ GET VEHICLE LIST METHODS ------------------------------------------ //
+    public void processAllVehiclesRequest(){
+        init();
+        for (Vehicle v : dealership.getAllVehicles()){
+            System.out.println(v.toStringDisplay());
+        }
+
+    }// End of processAllVehiclesRequest()
+
+    public void processGetByPriceRequest(){
+
+    }
+    // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
     public void processAddVehicleRequest(){
@@ -103,7 +117,7 @@ public class UserInterface {
             confirmation = in.nextLine().trim();
             if (!confirmation.equals("0")) {
                 dealership.addVehicle(newVehicle);
-                dealershipFM.saveDealership(dealership, dealership.getInventory()); // TODO: move this save step to after exiting the program?
+                dealershipFM.saveDealership(dealership, dealership.getAllVehicles()); // TODO: move this save step to after exiting the program?
             }
         }while(!confirmation.equals("0"));
     }// End of processAddVehicleRequest()
@@ -116,7 +130,7 @@ public class UserInterface {
             m.menuHeader("Remove a Vehicle");
             init();
             vinToRemove = (int) getValidatedInputDouble("VIN to REMOVE");
-            for (Vehicle vehicle : dealership.getInventory()){
+            for (Vehicle vehicle : (dealership.getAllVehicles())){
                 if (vinToRemove == vehicle.getVin()){
                     found++;
                     System.out.print("\nThe following vehicle will be added to inventory:\n" + vehicle.toStringDisplay());
@@ -125,7 +139,7 @@ public class UserInterface {
                     confirmation = in.nextLine().trim();
                     if (confirmation.equals("1")) {
                         dealership.removeVehicle(vehicle);
-                        dealershipFM.saveDealership(dealership, dealership.getInventory()); // TODO: move this save step to after exiting the program?
+                        dealershipFM.saveDealership(dealership, dealership.getAllVehicles()); // TODO: move this save step to after exiting the program?
                         break;
                     }else{
                         break;
