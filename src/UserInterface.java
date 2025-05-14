@@ -1,3 +1,4 @@
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -63,7 +64,7 @@ public class UserInterface {
                 switch (userInput){
                     case 1 -> processGetByPriceRequest();
 //                    case 2 -> dealership.getVehiclesByMakeModel();
-//                    case 3 -> dealership.getVehiclesByYear();
+                    case 3 -> processGetByYearRequest();
 //                    case 4 -> dealership.getVehiclesByColor();
 //                    case 5 -> dealership.getVehiclesByMileage();
 //                    case 6 -> dealership.getVehiclesByType();
@@ -79,6 +80,29 @@ public class UserInterface {
             }
         }
     }// End of display()
+
+    public void displayResults(String criteria){
+        init();
+        String minName = "Minimum " + criteria;
+        String maxName = "Maximum " + criteria;
+        double min = Math.abs(getValidatedInputDouble(minName));
+        double max = Math.abs(getValidatedInputDouble(maxName));
+        ArrayList<Vehicle> filteredList = new ArrayList<>();
+        switch (criteria){
+            case "Price" -> filteredList.addAll(dealership.getVehiclesByPrice(min, max));
+            case "Year" -> filteredList.addAll(dealership.getVehiclesByYear((int) min, (int) max));
+            default -> System.out.println("Error with displayResults' switch");
+        }
+        System.out.println(m.createPattern("🔻", 50));
+        System.out.printf("%d vehicles found within the %s range of %.2f - %.2f\n\n",
+                filteredList.size(), criteria, min, max);
+        for (Vehicle v : filteredList){
+            System.out.println(v.toStringDisplay());
+        }
+        System.out.printf("%d vehicles found within the %s range of %.2f - %.2f\n",
+                filteredList.size(), criteria, min, max);
+        System.out.println(m.createPattern("🔺", 50));
+    }
     // -------------------------------------------- DISPLAY METHODS ENDS -------------------------------------------- //
 
     // ------------------------------------------ GET VEHICLE LIST METHODS ------------------------------------------ //
@@ -95,19 +119,12 @@ public class UserInterface {
     }// End of processAllVehiclesRequest()
 
     public void processGetByPriceRequest(){
-        init();
-        double minPrice = Math.abs(getValidatedInputDouble("Minimum Price"));
-        double maxPrice = Math.abs(getValidatedInputDouble("Maximum Price"));
-        System.out.println(m.createPattern("🔻", 50));
-        System.out.printf("%d vehicles found within the price range of %.2f - %.2f\n\n",
-                dealership.getVehiclesByPrice(minPrice,maxPrice).size(), minPrice, maxPrice);
-        for (Vehicle v : dealership.getVehiclesByPrice(minPrice, maxPrice)){
-            System.out.println(v.toStringDisplay());
-        }
-        System.out.printf("%d vehicles found within the price range of %.2f - %.2f\n",
-                dealership.getVehiclesByPrice(minPrice,maxPrice).size(), minPrice, maxPrice);
-        System.out.println(m.createPattern("🔺", 50));
-    }
+        displayResults("Price");
+    } // End of processGetByPriceRequest()
+
+    public void processGetByYearRequest(){
+        displayResults("Year");
+    } // End of processGetByYearRequest()
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
