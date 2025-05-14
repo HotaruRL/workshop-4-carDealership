@@ -1,4 +1,3 @@
-import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -65,7 +64,7 @@ public class UserInterface {
                     case 1 -> processGetByPriceRequest();
 //                    case 2 -> dealership.getVehiclesByMakeModel();
                     case 3 -> processGetByYearRequest();
-//                    case 4 -> dealership.getVehiclesByColor();
+                    case 4 -> processGetByColorRequest();
                     case 5 -> processGetByMileageRequest();
 //                    case 6 -> dealership.getVehiclesByType();
                     case 7 -> processAllVehiclesRequest();
@@ -81,7 +80,25 @@ public class UserInterface {
         }
     }// End of display()
 
-    public void displayResults(String criteria){
+    public void respondToStringCriteria(String criteria){
+        init();
+        String filter1 = getValidatedInputString(criteria);
+        ArrayList<Vehicle> filteredList = new ArrayList<>();
+        switch (criteria) {
+            case "Color" ->filteredList.addAll(dealership.getVehiclesByColor(filter1));
+            default -> System.out.println("Error with respondToStringCriteria' switch");
+        }
+        System.out.println(m.createPattern("🔻", 50));
+        System.out.printf("%d vehicles found that have the %s of %s\n\n",
+                filteredList.size(), criteria, filter1);
+        for (Vehicle v : filteredList){
+            System.out.println(v.toStringDisplay());
+        }
+        System.out.printf("%d vehicles found that have the %s of %s\n",
+                filteredList.size(), criteria, filter1);
+        System.out.println(m.createPattern("🔺", 50));
+    }
+    public void respondToNumberCriteria(String criteria){
         init();
         String minName = "Minimum " + criteria;
         String maxName = "Maximum " + criteria;
@@ -92,7 +109,7 @@ public class UserInterface {
             case "Price" -> filteredList.addAll(dealership.getVehiclesByPrice(min, max));
             case "Year" -> filteredList.addAll(dealership.getVehiclesByYear((int) min, (int) max));
             case "Mileage" -> filteredList.addAll(dealership.getVehiclesByMileage((int) min, (int) max));
-            default -> System.out.println("Error with displayResults' switch");
+            default -> System.out.println("Error with respondToNumberCriteria' switch");
         }
         System.out.println(m.createPattern("🔻", 50));
         System.out.printf("%d vehicles found within the %s range of %.2f - %.2f\n\n",
@@ -120,16 +137,20 @@ public class UserInterface {
     }// End of processAllVehiclesRequest()
 
     public void processGetByPriceRequest(){
-        displayResults("Price");
+        respondToNumberCriteria("Price");
     } // End of processGetByPriceRequest()
 
     public void processGetByYearRequest(){
-        displayResults("Year");
+        respondToNumberCriteria("Year");
     } // End of processGetByYearRequest()
 
+    public void processGetByColorRequest(){
+        respondToStringCriteria("Color");
+    } // End of processGetByColorRequest()
+
     public void processGetByMileageRequest(){
-        displayResults("Mileage");
-    } // End of processGetByYearRequest()
+        respondToNumberCriteria("Mileage");
+    } // End of processGetByMileageRequest()
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
