@@ -66,10 +66,14 @@ public class Dealership {
         }
     }// End of getVehiclesByMakeModel method
 
-    public void getVehiclesByYear(int min, int max){
+    public ArrayList<Vehicle> getVehiclesByYear(int min, int max){
+        ArrayList<Vehicle> list = new ArrayList<>();
         for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
+            if (min <= v.getYear() && v.getYear() <= max){
+                list.add(v);
+            }
         }
+        return list;
     }// End of getVehiclesByYear method
 
     public void getVehiclesByColor(String color){
