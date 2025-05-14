@@ -48,7 +48,7 @@ public class Menu {
                         [3] - Find vehicles by year range
                         [4] - Find vehicles by color
                         [5] - Find vehicles by mileage range
-                        [6] - Find vehicles by type (car, truck, SUV, van)
+                        [6] - Find vehicles by type (sedan, truck, SUV, van)
                         [7] - List ALL vehicles
                         [8] - Add a vehicle
                         [9] - Remove a vehicle

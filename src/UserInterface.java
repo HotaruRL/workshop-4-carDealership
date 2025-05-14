@@ -66,7 +66,7 @@ public class UserInterface {
                     case 3 -> processGetByYearRequest();
                     case 4 -> processGetByColorRequest();
                     case 5 -> processGetByMileageRequest();
-//                    case 6 -> dealership.getVehiclesByType();
+                    case 6 -> processGetByVehicleTypeRequest();
                     case 7 -> processAllVehiclesRequest();
                     case 8 -> processAddVehicleRequest();
                     case 9 -> processRemoveVehicleRequest();
@@ -85,7 +85,8 @@ public class UserInterface {
         String filter1 = getValidatedInputString(criteria);
         ArrayList<Vehicle> filteredList = new ArrayList<>();
         switch (criteria) {
-            case "Color" ->filteredList.addAll(dealership.getVehiclesByColor(filter1));
+            case "Color" -> filteredList.addAll(dealership.getVehiclesByColor(filter1));
+            case "Vehicle Type" -> filteredList.addAll(dealership.getVehiclesByType(filter1));
             default -> System.out.println("Error with respondToStringCriteria' switch");
         }
         System.out.println(m.createPattern("🔻", 50));
@@ -151,6 +152,10 @@ public class UserInterface {
     public void processGetByMileageRequest(){
         respondToNumberCriteria("Mileage");
     } // End of processGetByMileageRequest()
+
+    public void processGetByVehicleTypeRequest(){
+        respondToStringCriteria("Vehicle Type");
+    } // End of processGetByColorRequest()
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
