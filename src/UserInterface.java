@@ -66,7 +66,7 @@ public class UserInterface {
 //                    case 2 -> dealership.getVehiclesByMakeModel();
                     case 3 -> processGetByYearRequest();
 //                    case 4 -> dealership.getVehiclesByColor();
-//                    case 5 -> dealership.getVehiclesByMileage();
+                    case 5 -> processGetByMileageRequest();
 //                    case 6 -> dealership.getVehiclesByType();
                     case 7 -> processAllVehiclesRequest();
                     case 8 -> processAddVehicleRequest();
@@ -91,6 +91,7 @@ public class UserInterface {
         switch (criteria){
             case "Price" -> filteredList.addAll(dealership.getVehiclesByPrice(min, max));
             case "Year" -> filteredList.addAll(dealership.getVehiclesByYear((int) min, (int) max));
+            case "Mileage" -> filteredList.addAll(dealership.getVehiclesByMileage((int) min, (int) max));
             default -> System.out.println("Error with displayResults' switch");
         }
         System.out.println(m.createPattern("🔻", 50));
@@ -124,6 +125,10 @@ public class UserInterface {
 
     public void processGetByYearRequest(){
         displayResults("Year");
+    } // End of processGetByYearRequest()
+
+    public void processGetByMileageRequest(){
+        displayResults("Mileage");
     } // End of processGetByYearRequest()
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 

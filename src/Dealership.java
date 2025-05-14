@@ -60,10 +60,9 @@ public class Dealership {
         return list;
     }// End of getVehiclesByPrice method
 
-    public void getVehiclesByMakeModel(String make, String model){
-        for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
-        }
+    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
+        ArrayList<Vehicle> list = new ArrayList<>();
+        return list;
     }// End of getVehiclesByMakeModel method
 
     public ArrayList<Vehicle> getVehiclesByYear(int min, int max){
@@ -76,22 +75,24 @@ public class Dealership {
         return list;
     }// End of getVehiclesByYear method
 
-    public void getVehiclesByColor(String color){
-        for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
-        }
+    public ArrayList<Vehicle> getVehiclesByColor(String color){
+        ArrayList<Vehicle> list = new ArrayList<>();
+        return list;
     }// End of getVehiclesByColor method
 
-    public void getVehiclesByMileage(int min, int max){
+    public ArrayList<Vehicle> getVehiclesByMileage(int min, int max){
+        ArrayList<Vehicle> list = new ArrayList<>();
         for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
+            if (min <= v.getOdometer() && v.getOdometer() <= max){
+                list.add(v);
+            }
         }
+        return list;
     }// End of getVehiclesByMileage method
 
-    public void getVehiclesByType(String vehicleType){
-        for (Vehicle v : inventory) {
-            System.out.println(v); // TODO add .toStringDisplay?
-        }
+    public ArrayList<Vehicle> getVehiclesByType(String vehicleType){
+        ArrayList<Vehicle> list = new ArrayList<>();
+        return list;
     }// End of getVehiclesByType method
 
 }
