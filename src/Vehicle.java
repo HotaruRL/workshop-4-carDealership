@@ -73,8 +73,7 @@ public class Vehicle {
                 Vehicle Type: %s
                 Color: %s
                 Odometer: %s
-                Price: %s
-                """,
+                Price: %s""",
                 this.vin,
                 this.year,
                 this.make,

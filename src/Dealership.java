@@ -61,7 +61,15 @@ public class Dealership {
     }// End of getVehiclesByPrice method
 
     public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
-        ArrayList<Vehicle> list = new ArrayList<>();
+        ArrayList<SearchCriterion> activeCriteria = new ArrayList<>();
+        if (!make.isEmpty()){
+            activeCriteria.add(new MakeCriterion(make));
+        }
+        if (!model.isEmpty()){
+            activeCriteria.add(new ModelCriterion(model));
+        }
+        Filter filter = new Filter();
+        ArrayList<Vehicle> list = filter.filter(inventory, activeCriteria);
         return list;
     }// End of getVehiclesByMakeModel method
 

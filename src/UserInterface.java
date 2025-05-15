@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class UserInterface {
     // fields
@@ -23,7 +21,7 @@ public class UserInterface {
                 break;
             }else {
                 System.out.printf("\n%s cannot be blank. Please hit [Enter] to try again!", fieldName);
-                in.nextLine();
+//                in.nextLine();
             }
         }
         return userInput;
@@ -35,11 +33,11 @@ public class UserInterface {
         while (!isValid) {
             try {
                 System.out.printf("Please enter the %s: ", fieldName);
-                userInput = in.nextDouble();
+                String text = in.nextLine();
+                userInput = Double.parseDouble(text);
                 isValid = true;
             } catch (InputMismatchException e) {
                 System.out.printf("\nInvalid input. Please enter a number value for %s!\n", fieldName);
-                in.nextLine();
             }
         }
         return userInput;
@@ -62,7 +60,7 @@ public class UserInterface {
                 String _ = in.nextLine();
                 switch (userInput){
                     case 1 -> processGetByPriceRequest();
-//                    case 2 -> dealership.getVehiclesByMakeModel();
+                    case 2 -> processGetByMakeModelRequest();
                     case 3 -> processGetByYearRequest();
                     case 4 -> processGetByColorRequest();
                     case 5 -> processGetByMileageRequest();
@@ -80,6 +78,17 @@ public class UserInterface {
         }
     }// End of display()
 
+    public void displayVehicles(ArrayList<Vehicle> list, String title){
+        System.out.println(m.createPattern("🔻", 50));
+        System.out.println(title);
+        String prefix = m.createPattern("- ", 55) + "\n";
+        for (Vehicle v : list) {
+            System.out.println(prefix + v.toStringDisplay());
+        }
+        System.out.println(prefix + title);
+        System.out.println(m.createPattern("🔺", 50));
+    }// End of displayVehicles()
+
     public void respondToStringCriteria(String criteria){
         init();
         String filter1 = getValidatedInputString(criteria);
@@ -89,15 +98,9 @@ public class UserInterface {
             case "Vehicle Type" -> filteredList.addAll(dealership.getVehiclesByType(filter1));
             default -> System.out.println("Error with respondToStringCriteria' switch");
         }
-        System.out.println(m.createPattern("🔻", 50));
-        System.out.printf("%d vehicles found that have the %s of %s\n\n",
+        String title = String.format("%d vehicles found that have the %s of %s",
                 filteredList.size(), criteria, filter1);
-        for (Vehicle v : filteredList){
-            System.out.println(v.toStringDisplay());
-        }
-        System.out.printf("%d vehicles found that have the %s of %s\n",
-                filteredList.size(), criteria, filter1);
-        System.out.println(m.createPattern("🔺", 50));
+        displayVehicles(filteredList, title);
     }
     public void respondToNumberCriteria(String criteria){
         init();
@@ -112,34 +115,35 @@ public class UserInterface {
             case "Mileage" -> filteredList.addAll(dealership.getVehiclesByMileage((int) min, (int) max));
             default -> System.out.println("Error with respondToNumberCriteria' switch");
         }
-        System.out.println(m.createPattern("🔻", 50));
-        System.out.printf("%d vehicles found within the %s range of %.2f - %.2f\n\n",
+        String title = String.format("%d vehicles found within the %s range of %.2f - %.2f",
                 filteredList.size(), criteria, min, max);
-        for (Vehicle v : filteredList){
-            System.out.println(v.toStringDisplay());
-        }
-        System.out.printf("%d vehicles found within the %s range of %.2f - %.2f\n",
-                filteredList.size(), criteria, min, max);
-        System.out.println(m.createPattern("🔺", 50));
+        displayVehicles(filteredList, title);
     }
     // -------------------------------------------- DISPLAY METHODS ENDS -------------------------------------------- //
 
     // ------------------------------------------ GET VEHICLE LIST METHODS ------------------------------------------ //
     public void processAllVehiclesRequest(){
         init();
-        System.out.println(m.createPattern("🔻", 50));
-        System.out.printf("%d vehicles found in inventory.\n\n", dealership.getAllVehicles().size());
-        for (Vehicle v : dealership.getAllVehicles()){
-            System.out.println(v.toStringDisplay());
-        }
-        System.out.printf("%d vehicles found in inventory.\n", dealership.getAllVehicles().size());
-        System.out.println(m.createPattern("🔺", 50));
-
+        String title = String.format("%d vehicles found in inventory.", dealership.getAllVehicles().size());
+        displayVehicles(dealership.getAllVehicles(),title);
     }// End of processAllVehiclesRequest()
 
     public void processGetByPriceRequest(){
         respondToNumberCriteria("Price");
     } // End of processGetByPriceRequest()
+
+    public void processGetByMakeModelRequest(){
+        init();
+        ArrayList<Vehicle> filteredList = new ArrayList<>();
+        System.out.print("Please enter the Make: ");
+        String make = in.nextLine().trim();
+        System.out.print("Please enter the Model: ");
+        String model = in.nextLine().trim();
+        filteredList.addAll(dealership.getVehiclesByMakeModel(make, model));
+        String title = String.format("%d vehicles found that match Make: %s and/or Model: %s",
+                filteredList.size(), make, model);
+        displayVehicles(filteredList, title);
+    } // End of processGetByMakeModelRequest()
 
     public void processGetByYearRequest(){
         respondToNumberCriteria("Year");
@@ -155,7 +159,7 @@ public class UserInterface {
 
     public void processGetByVehicleTypeRequest(){
         respondToStringCriteria("Vehicle Type");
-    } // End of processGetByColorRequest()
+    } // End of processGetByVehicleTypeRequest()
     // --------------------------------------- GET VEHICLE LIST METHODS ENDS ---------------------------------------- //
 
     // ----------------------------------------- ADD/REMOVE VEHICLE METHODS ----------------------------------------- //
@@ -169,7 +173,6 @@ public class UserInterface {
             init();
             int vin = (int) getValidatedInputDouble("VIN");
             int year = (int) getValidatedInputDouble("Year");
-            String _ = in.nextLine(); // to consume the enter key left from the method above
             String make = getValidatedInputString("Make");
             String model = getValidatedInputString("Model");
             String vehicleType = getValidatedInputString("Vehicle Type");
@@ -179,7 +182,6 @@ public class UserInterface {
             Vehicle newVehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
             System.out.print("\nThe following vehicle will be added to inventory:\n" + newVehicle.toStringDisplay());
             System.out.print("\nEnter [1] to CONFIRM or press [Any Key] to CANCEL: ");
-            in.nextLine();
             confirmation = in.nextLine().trim();
             if (confirmation.equals("1")) {
                 dealership.addVehicle(newVehicle);
@@ -205,7 +207,6 @@ public class UserInterface {
                     found++;
                     System.out.print("\nThe following vehicle will be removed to inventory:\n" + vehicle.toStringDisplay());
                     System.out.print("\nEnter [1] to CONFIRM or enter [Any Key] to CANCEL: ");
-                    in.nextLine();
                     confirmation = in.nextLine().trim();
                     if (confirmation.equals("1")) {
                         dealership.removeVehicle(vehicle);
@@ -223,7 +224,6 @@ public class UserInterface {
             System.out.print("\n\nDo you want to remove another vehicle?");
             System.out.print("\nEnter [Any Key] to CONFIRM or enter [0] to go back to Main Menu: ");
             found = 0;
-            in.nextLine();
             confirmation = in.nextLine().trim();
         }while (!confirmation.equals("0"));
     }
