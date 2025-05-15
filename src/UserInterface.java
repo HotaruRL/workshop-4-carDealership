@@ -45,7 +45,7 @@ public class UserInterface {
     // ----------------------------------------- USER INPUT VALIDATION ENDS ----------------------------------------- //
 
     // ----------------------------------------------- DISPLAY METHODS ---------------------------------------------- //
-    private Dealership init(){
+    public Dealership init(){
         return dealershipFM.getDealership();
     }
 
