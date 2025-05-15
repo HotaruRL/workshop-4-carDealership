@@ -3,8 +3,7 @@ abstract class Contract {
     String customerName;
     String customerEmail;
     Vehicle vehicleSold;
-    double price;
-    double monthlyPayment;
+
 
     Contract(
             String date,
