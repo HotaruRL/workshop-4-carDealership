@@ -25,24 +25,25 @@ public class SalesContract extends Contract{
 
     @Override
     double getTotalPrice() {
-        return (vehicleSold.getPrice() * (1 + SALE_TAX)) + recordingFee + processingFee;
-
+        this.totalPrice = (vehicleSold.getPrice() * (1 + SALE_TAX)) + recordingFee + processingFee;
+        return this.totalPrice;
     }
 
     @Override
     double getMonthlyPayment(boolean isFinanced) {
         if (isFinanced){
             this.isFinanced = isFinanced;
-            return getTotalPrice() * ((monthlyInterestRate * Math.pow((1 + monthlyInterestRate),numberOfPayments)) / ((Math.pow(1 + monthlyInterestRate, numberOfPayments)) - 1));
+            this.monthlyPayment = getTotalPrice() * ((monthlyInterestRate * Math.pow((1 + monthlyInterestRate),numberOfPayments)) / ((Math.pow(1 + monthlyInterestRate, numberOfPayments)) - 1));
         } else {
-            return 0;
+            this.monthlyPayment = 0;
         }
+        return this.monthlyPayment;
     }
 
     // toStrings
     public String toString(){
         return String.format(
-                "SALE|%s|%s|%s|%s|%s|%s|%s|%s|%s|%s",
+                "SALE|%s|%s|%s|%s|%.2f|%.2f|%.2f|%.2f|%s|%.2f",
                 this.date,
                 this.customerName,
                 this.customerEmail,
@@ -50,9 +51,9 @@ public class SalesContract extends Contract{
                 this.salesTaxAmount,
                 this.recordingFee,
                 this.processingFee,
-                this.getTotalPrice(),
+                this.totalPrice,
                 this.isFinanced,
-                this.getMonthlyPayment(isFinanced)
+                this.monthlyPayment
         );
     }
 
@@ -77,9 +78,9 @@ public class SalesContract extends Contract{
                 this.salesTaxAmount,
                 this.recordingFee,
                 this.processingFee,
-                this.getTotalPrice(),
+                this.totalPrice,
                 this.isFinanced,
-                this.getMonthlyPayment(isFinanced)
+                this.monthlyPayment
         );
     }
 }
